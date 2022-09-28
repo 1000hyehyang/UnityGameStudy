@@ -8,6 +8,8 @@ public class orange : MonoBehaviour
     private Animator animator;
 
     private Rigidbody2D rigidbody;
+    
+    public AudioClip clip;
    
     void Start()
     {
@@ -31,6 +33,7 @@ public class orange : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
+            SoundManager.instance.SFXPlay("Pop", clip);
             GameManager.Instance.GameOver();
             animator.SetTrigger("orange");
         }
