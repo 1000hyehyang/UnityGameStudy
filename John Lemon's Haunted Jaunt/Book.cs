@@ -6,16 +6,16 @@ public class Book : MonoBehaviour
     [SerializeField]
     Text pickupText;
     bool isPickup;
-    int charm;
 
     public GameObject player;
     public GameObject bookContent;
+    GameManager gameManager;
+
 
     void Start()
     {
         pickupText.gameObject.SetActive(false);
         bookContent.gameObject.SetActive(false);
-        charm = PlayerPrefs.GetInt("Charm", 0);
     }
 
     void Update()
@@ -48,9 +48,7 @@ public class Book : MonoBehaviour
 
     void PickUp()
     {
-        charm++;
-        PlayerPrefs.SetInt("Charm", charm);
-        PlayerPrefs.Save();
+        gameManager.IncreaseCharm();
 
         pickupText.gameObject.SetActive(false);
         bookContent.gameObject.SetActive(false);
