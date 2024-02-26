@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
-    // Book °ü·Ã ·ÎÁ÷
+    // Book ê´€ë ¨ ë¡œì§
     private int charm = 0;
 
     public GameObject player;
@@ -17,18 +15,16 @@ public class GameManager : MonoBehaviour
     public CinemachineVirtualCamera virtualCamera;
     public GameObject redGhost;
 
-    // Time °ü·Ã ·ÎÁ÷
+    // Time ê´€ë ¨ ë¡œì§
     private float bestTime = Mathf.Infinity;
 
-    // ¸ğµç ±â·Ï ºÒ·¯¿À±â
+    // ëª¨ë“  ê¸°ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
     private List<float> allTimes = new List<float>();
 
     void Start()
     {
         optionMenu.SetActive(false);
         charm = PlayerPrefs.GetInt("Charm", 0);
-        LoadBestTime();
-        LoadAllTimes();
     }
     void Update()
     {
@@ -53,7 +49,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(SwitchToRedGhostCamera());
         }
-        PlayerPrefs.SetInt("Charm", charm); // charm °ª ÀúÀå
+        PlayerPrefs.SetInt("Charm", charm); // charm ê°’ ì €ì¥
         PlayerPrefs.Save();
     }
 
@@ -68,7 +64,7 @@ public class GameManager : MonoBehaviour
         virtualCamera.Follow = redGhost.transform;
         virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = 10;
 
-        // 2ÃÊ ÈÄ¿¡ RedGhost¸¦ ÆÄ±«ÇÏ°í Ä«¸Ş¶ó¸¦ ´Ù½Ã JohnLemonÀ¸·Î ÀÌµ¿½ÃÅ°´Â ·ÎÁ÷
+        // 2ì´ˆ í›„ì— RedGhostë¥¼ íŒŒê´´í•˜ê³  ì¹´ë©”ë¼ë¥¼ ë‹¤ì‹œ JohnLemonìœ¼ë¡œ ì´ë™ì‹œí‚¤ëŠ” ë¡œì§
         yield return new WaitForSeconds(2f);
 
         Destroy(redGhost);
@@ -82,34 +78,12 @@ public class GameManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void LoadAllTimes()
-    {
-        string timesString = PlayerPrefs.GetString("AllTimes", "");
-        if (!string.IsNullOrEmpty(timesString))
-        {
-            string[] timeStrings = timesString.Split(',');
-            foreach (string timeStr in timeStrings)
-            {
-                float time;
-                if (float.TryParse(timeStr, out time))
-                {
-                    allTimes.Add(time);
-                }
-            }
-        }
-    }
-
     private void SaveTimeToList(float currentTime)
     {
         allTimes.Add(currentTime);
-        string timesString = string.Join(",", allTimes); // ¸®½ºÆ®¸¦ ½°Ç¥·Î ±¸ºĞµÈ ÇÏ³ªÀÇ ¹®ÀÚ¿­·Î º¯È¯
+        string timesString = string.Join(",", allTimes); // ë¦¬ìŠ¤íŠ¸ë¥¼ ì‰¼í‘œë¡œ êµ¬ë¶„ëœ í•˜ë‚˜ì˜ ë¬¸ìì—´ë¡œ ë³€í™˜
         PlayerPrefs.SetString("AllTimes", timesString);
         PlayerPrefs.Save();
-    }
-
-    private void LoadBestTime()
-    {
-        bestTime = PlayerPrefs.GetFloat("BestTime", Mathf.Infinity);
     }
 
     public void UpdateBestTime(float currentTime)
@@ -118,8 +92,8 @@ public class GameManager : MonoBehaviour
 
         if (currentTime < bestTime)
         {
-            bestTime = currentTime; // ÇöÀç ½Ã°£ÀÌ ÃÖ°í ±â·Ïº¸´Ù ÀÛÀ¸¸é ÃÖ°í ±â·ÏÀ» ¾÷µ¥ÀÌÆ®
-            PlayerPrefs.SetFloat("BestTime", bestTime); // ÃÖ°í ±â·Ï ÀúÀå
+            bestTime = currentTime; // í˜„ì¬ ì‹œê°„ì´ ìµœê³  ê¸°ë¡ë³´ë‹¤ ì‘ìœ¼ë©´ ìµœê³  ê¸°ë¡ì„ ì—…ë°ì´íŠ¸
+            PlayerPrefs.SetFloat("BestTime", bestTime); // ìµœê³  ê¸°ë¡ ì €ì¥
             PlayerPrefs.Save();
         }
     }
