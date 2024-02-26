@@ -1,18 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public class BtnType : MonoBehaviour
+public class BtnType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // Start is called before the first frame update
+    public BTNType currentType;
+    public Transform buttonScale;
+    Vector3 defaultScale;
+
     void Start()
     {
-        
+        defaultScale = buttonScale.localScale;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnBtnClick()
     {
-        
+        switch (currentType)
+        {
+            case BTNType.New:
+                PlayerPrefs.DeleteKey("Charm");
+                SceneManager.LoadScene("MainScene");
+                break;
+            case BTNType.Quit:
+                Application.Quit();
+                break;
+            case BTNType.Menu:
+                SceneManager.LoadScene("TitleScene");
+                break;
+            case BTNType.Reset:
+                PlayerPrefs.DeleteAll();
+                break;
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        buttonScale.localScale = defaultScale * 1.1f;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        buttonScale.localScale = defaultScale;
     }
 }
